@@ -1,25 +1,19 @@
-# Lightweight production image for the Flask application.
+# Use an official Python runtime as the base image
 FROM python:3.11-slim
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PORT=8080
-
+# Set the working directory in the container
 WORKDIR /app
 
-# Install dependencies in a separate layer for Docker build cache reuse.
-COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-COPY app.py .
-COPY templates ./templates
+# Install required Python packages from the requirements file
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Cloud Run runs the container as a non-root user.
-RUN useradd --create-home --uid 10001 appuser
-USER appuser
+# Expose the port that the Flask app will run on
+#EXPOSE 8080
 
-EXPOSE 8080
-
-# Bind to the PORT environment variable supplied by Cloud Run.
-CMD ["sh", "-c", "exec gunicorn --bind 0.0.0.0:${PORT} --workers 1 --threads 8 --timeout 300 app:app"]
+# Set the default command to run the Flask app (point to main.py)
+#CMD ["python", "main.py"]
+#CMD exec gunicorn --bind :$PORT --worker 1 --theards 8 --timeout 0 app:main
+CMD ["gunicorn", "--bind", ":8080", "--workers", "1", "--threads", "8", "--timeout", "0", "main:app"]
