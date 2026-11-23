@@ -16,4 +16,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Set the default command to run the Flask app (point to main.py)
 #CMD ["python", "main.py"]
 #CMD exec gunicorn --bind :$PORT --worker 1 --theards 8 --timeout 0 app:main
-CMD ["gunicorn", "--bind", ":8080", "--workers", "1", "--threads", "8", "--timeout", "0", "main:app"]
+CMD ["gunicorn", "--bind", ":8080", "--workers", "1", "--threads", "8", "--timeout", "300", "app:app"]
