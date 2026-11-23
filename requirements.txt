@@ -1,6 +1,9 @@
-flask
-langgraph
-langchain
-langchain-google-genai
-python-dotenv
-duckduckgo-search
+Flask>=3.0,<4.0
+gunicorn>=22.0,<24.0
+langgraph>=0.2,<2.0
+langchain>=0.3,<2.0
+langchain-google-genai>=2.0,<5.0
+langchain-core>=0.3,<2.0
+python-dotenv>=1.0,<2.0
+ddgs>=9.0,<10.0
+requests>=2.31,<3.0
